@@ -30,7 +30,6 @@ public class Photo extends AbstractPersistable<Long>{
     private Account user;
     
     @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType") 
-    @Basic
     private byte[] content;
     
     @OneToMany(mappedBy = "photo")
