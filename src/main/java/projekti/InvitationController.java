@@ -71,7 +71,7 @@ public class InvitationController {
                     }
                 }
                 for (Invitation inv : currentInvitations) {
-                    if (inv.getFromUserUsername().equals(user) && inv.getToUserUsername().equals(currentUser) || inv.getFromUserUsername().equals(currentUser) && inv.getToUserUsername().equals(user)) {
+                    if ((inv.getFromUserUsername().equals(user) && inv.getToUserUsername().equals(currentUser)) || (inv.getFromUserUsername().equals(currentUser) && inv.getToUserUsername().equals(user))) {
                         model.addAttribute("name", name);
                         model.addAttribute("username", user);
                         model.addAttribute("alreadyFriend", true);

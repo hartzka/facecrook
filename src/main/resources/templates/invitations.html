@@ -18,7 +18,7 @@
                 <p>New invitations:</p>
                 <ul th:each="invitation : ${invitations}">
                     <li th:if="${invitation.accepted == 0}">
-                        <span th:text="${invitation.fromUserUsername} + ' ' + ${invitation.datetime}">from</span>
+                        <span th:text="${invitation.fromUserUsername} + ' ' + ${#strings.substring(invitation.datetime, 8, 10)+ '.' + #strings.substring(invitation.datetime, 5, 7) + '.' + #strings.substring(invitation.datetime, 0, 4) + ' ' + #strings.substring(invitation.datetime, 11, 16)}">from</span>
                         <form th:action="@{/invitations/accept/{id}(id=${invitation.id})}" th:method="POST"><input style="margin:10px;" class="btn btn-success" type="submit" value="Accept"/></form>
                         <form th:action="@{/invitations/decline/{id}(id=${invitation.id})}" th:method="POST"><input style="margin:10px;" class="btn btn-danger" type="submit" value="Decline"/></form>
                     </li>
@@ -27,7 +27,7 @@
                 <p>Sent invitations:</p>
                 <ul th:each="invitation : ${sentInvitations}">
                     <li>
-                        <span th:text="${invitation.toUserUsername} + ' ' + ${invitation.datetime}">from</span>
+                        <span th:text="${invitation.toUserUsername} + ' ' + ${#strings.substring(invitation.datetime, 8, 10)+ '.' + #strings.substring(invitation.datetime, 5, 7) + '.' + #strings.substring(invitation.datetime, 0, 4) + ' ' + #strings.substring(invitation.datetime, 11, 16)}">from</span>
                         <div th:if="${invitation.accepted == 0}">
                             <span>No response yet</span>
                         </div>

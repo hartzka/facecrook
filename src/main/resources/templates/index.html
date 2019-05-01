@@ -42,7 +42,7 @@
                         <tr>
                             <td th:text="${comment.sender.username} + ': '"></td>
                             <td th:text="${comment.content} + '  '"></td>
-                            <td th:text="${comment.date}"></td>
+                            <td th:text="${#strings.substring(comment.date, 8, 10)+ '.' + #strings.substring(comment.date, 5, 7) + '.' + #strings.substring(comment.date, 0, 4) + ' ' + #strings.substring(comment.date, 11, 16)}"></td>
                         </tr>
                         <tr>
                             <td th:if="${#authentication.getPrincipal().getUsername()}==${comment.sender.username}"><form th:action="@{/comments/delete/{id}(id=${comment.id})}" th:method="delete"><input type="submit" class="btn btn-warning" value="Delete"/></form></td>
@@ -57,7 +57,7 @@
                 <div th:if="${owner}==${#authentication.getPrincipal().getUsername()}">
                     <p>Write a new message:</p>
                     <form method="POST" th:action="@{/messages/add/{username}(username=${owner})}">
-                        <input type="input" style="margin-bottom: 15px;" class="form-control" placeholder="Write something..." name="content"/>
+                        <input type="input" style="margin-bottom: 15px;" class="form-control" placeholder="Write something..." id="content" name="content"/>
                         <input type="submit" class="btn btn-primary" value="Publish"/>
                     </form>
                 </div>

@@ -69,7 +69,7 @@
                         <tr>
                             <td th:text="${comment.sender.username} + ': '"></td>
                             <td th:text="${comment.content} + '  '"></td>
-                            <td th:text="${comment.date}"></td>
+                            <td th:text="${#strings.substring(comment.date, 8, 10)+ '.' + #strings.substring(comment.date, 5, 7) + '.' + #strings.substring(comment.date, 0, 4) + ' ' + #strings.substring(comment.date, 11, 16)}"></td>
                         </tr>
                         <tr>
                             <td th:if="${#authentication.getPrincipal().getUsername()}==${comment.sender.username}"><form th:action="@{/photocomments/delete/{id}(id=${comment.id})}" th:method="delete"><input class="btn btn-warning" type="submit" value="Delete"/></form></td>
