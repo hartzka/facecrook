@@ -22,14 +22,13 @@ public class Photo extends AbstractPersistable<Long>{
     
     private String name;
     private String contentType;
-    private Long contentLength;
     
     private int likes;
     
     @ManyToOne
     private Account user;
     
-    @Type(type="org.hibernate.type.BinaryType")
+    //@Type(type="org.hibernate.type.BinaryType")
     private byte[] content;
     
     @OneToMany(mappedBy = "photo")
