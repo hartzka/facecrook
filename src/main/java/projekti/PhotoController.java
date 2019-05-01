@@ -118,7 +118,6 @@ public class PhotoController {
             ph.setName(file.getOriginalFilename());
             ph.setContentType(file.getContentType());
             ph.setContentLength(file.getSize());
-            ph.setContent(file.getBytes());
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String currentUser = auth.getName();
             Account current = accountRepository.findByUsername(currentUser);

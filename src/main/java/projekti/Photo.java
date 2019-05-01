@@ -29,7 +29,7 @@ public class Photo extends AbstractPersistable<Long>{
     @ManyToOne
     private Account user;
     
-    @Type(type="org.hibernate.type.BinaryType")
+    @Type(type="org.hibernate.type.PrimitiveByteArrayBlobType") 
     @Basic
     private byte[] content;
     
