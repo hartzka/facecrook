@@ -10,7 +10,7 @@ public class MyApplication {
     
     @PostConstruct
     public void started() {
-        TimeZone.setDefault(TimeZone.getTimeZone("GMT+2"));
+        TimeZone.setDefault(TimeZone.getTimeZone("GMT+3"));
     }
 
     public static void main(String[] args) {
