@@ -30,8 +30,6 @@ public class Photo extends AbstractPersistable<Long>{
     @ManyToOne
     private Account user;
     
-    
-    @Basic(fetch=FetchType.LAZY)
     private byte[] content;
     
     @OneToMany(mappedBy = "photo")
