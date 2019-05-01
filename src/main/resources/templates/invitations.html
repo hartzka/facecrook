@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Friends')">
+        <meta charset="UTF-8" />
+        <title>Friends</title>
+    </head>
+    <body>
+        <header th:replace="fragments/layout :: header(owner=${owner})">
+            <p>menu</p>
+        </header>
+        
+        <main>
+            <section class="container" th:if="${owner}==${currentUser}">
+                
+                <h1>Invitations</h1>
+                
+                <p>New invitations:</p>
+                <ul th:each="invitation : ${invitations}">
+                    <li th:if="${invitation.accepted == 0}">
+                        <span th:text="${invitation.fromUserUsername} + ' ' + ${invitation.datetime}">from</span>
+                        <form th:action="@{/invitations/accept/{id}(id=${invitation.id})}" th:method="POST"><input style="margin:10px;" class="btn btn-success" type="submit" value="Accept"/></form>
+                        <form th:action="@{/invitations/decline/{id}(id=${invitation.id})}" th:method="POST"><input style="margin:10px;" class="btn btn-danger" type="submit" value="Decline"/></form>
+                    </li>
+                </ul>
+
+                <p>Sent invitations:</p>
+                <ul th:each="invitation : ${sentInvitations}">
+                    <li>
+                        <span th:text="${invitation.toUserUsername} + ' ' + ${invitation.datetime}">from</span>
+                        <div th:if="${invitation.accepted == 0}">
+                            <span>No response yet</span>
+                        </div>
+                        <div th:if="${invitation.accepted == 1}">
+                            <span>Declined</span>
+                        </div>
+                        <div th:if="${invitation.accepted == 2}">
+                            <span>Accepted</span>
+                        </div>
+                    </li>
+                </ul>
+                
+                <form th:if="!${sentInvitations.empty}" th:action="@{/invitations/delete/{username}(username=${currentUser})}" th:method="POST"><input class="btn btn-warning" type="submit" value="Delete history"/></form>
+                <br></br>
+                <h1>Friends:</h1>
+                <p><span th:text="${#lists.size(friends)} + ' '"></span>friend(s)</p>
+                <ul th:each="friend : ${friends}">
+                    <li>
+                        <a th:text="${friend}" th:href="@{/index/{username}(username=${friend})}"></a>
+                    </li>
+                </ul>
+
+                <p>Search users by username:</p>
+                <form method="POST" th:action="@{/invitations/search/{username}(username=${owner})}">
+                    <input type="text" style="margin: 10px; width: 300px;" class="form-control" placeholder="Type a username..." name="content"/>
+                    <input type="submit" style="margin:10px;" class="btn btn-secondary" value="Search"/>
+                </form>
+
+                <div th:if="${name}">
+                    <p><span th:text="${name} + ' ' + ${username}"/></p>
+                    <form th:if="${username}!=${currentUser} and ${username}!='' and !${alreadyFriend}" method="POST" th:action="@{/invitations/ask/{username}(username=${username})}" action="/invitations/ask">
+                        <input type="submit" class="btn btn-primary" value="Send friend invitation"/>
+                    </form>
+                </div>
+
+            </section>
+            
+            <section class="container" th:if="${owner}!=${currentUser}">
+                <p>Nothing to show</p>
+            </section>
+        </main>
+    </body>
+</html>

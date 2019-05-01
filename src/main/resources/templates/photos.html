@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Photos')">
+        <meta charset="UTF-8" />
+        <title>Photos</title>
+    </head>
+    <body>
+        <header th:replace="fragments/layout :: header(owner=${owner})">
+            <p>Gallery</p>
+        </header>
+
+        <main>
+            <section class="container">
+
+
+                <h2 th:if="${photos.empty}">No photos yet</h2>
+                <h2 th:if="!${photos.empty}">Photos:</h2>
+                <div th:each="photo : ${photos}" style="background-color: #eeeeee; margin-bottom: 10px;">
+                    <table class="table">
+                        <tbody>
+                            <tr> 
+                                <td><a th:href="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}"><img th:src="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}" width="200"/></a></td>
+                            </tr>
+                            <tr>
+                                <td th:if="${currentUser}==${photo.user}"><form th:action="@{/photos/delete/{id}(id=${photo.id})}" th:method="delete"><input type="submit" class="btn btn-warning" value="Delete"/></form></td>
+                            </tr>
+                            <tr>
+                                <td th:if="${currentUser}==${photo.user} and ${photo.id}!=${currentUser.profilePhotoId}"><form th:action="@{/photos/profile/{id}(id=${photo.id})}" th:method="POST"><input class="btn btn-info" type="submit" value="Set as profile picture"/></form></td>
+                                <td th:if="${currentUser}==${photo.user} and ${photo.id}==${currentUser.profilePhotoId}"><form th:action="@{/photos/unprofile/{id}(id=${photo.id})}" th:method="POST"><input class="btn btn-danger" type="submit" value="Remove profile picture"/></form></td>
+                            </tr>
+                            <tr>
+                                <td th:if="${currentUser}!=${photo.user} and !${#lists.contains(photo.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/photos/like/{id}(id=${photo.id})}" th:method="POST"><input class="btn btn-success" type="submit" value="Like"/></form></td>
+                                <td th:if="${currentUser}!=${photo.user} and ${#lists.contains(photo.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/photos/unlike/{id}(id=${photo.id})}" th:method="POST"><input class="btn btn-danger" type="submit" value="Unlike"/></form></td>
+                            </tr>
+                            <tr>
+                                <td>Likes: <span th:text="${photo.likes}"></span></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <form th:action="@{/photos/comment/{id}(id=${photo.id})}" th:method="POST">
+                        <input style="margin: 15px; width: 300px;" class="form-control" placeholder="Write a comment..." type="input" name="content"/>
+                        <input style="margin: 15px;" class="btn btn-primary" type="submit" value="Comment"/>
+                    </form>
+
+                    <div th:if='!${comments.get(photo).empty}' class="container">
+                        <b>Sender / message / time:</b>
+                    </div>
+                    <table class="table" th:each="comment:${comments.get(message)}">
+
+                        <tr>
+                            <td th:text="${comment.sender.username} + ': '"></td>
+                            <td th:text="${comment.content} + '  '"></td>
+                            <td th:text="${comment.date}"></td>
+                        </tr>
+                        <tr>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}==${comment.sender.username}"><form th:action="@{/comments/delete/{id}(id=${comment.id})}" th:method="delete"><input type="submit" class="btn btn-danger" value="Delete"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and !${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/comments/like/{id}(id=${comment.id})}" th:method="POST"><input type="submit" class="btn btn-success" value="Like"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and ${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/comments/unlike/{id}(id=${comment.id})}" th:method="POST"><input type="submit" class="btn btn-danger" value="Unlike"/></form></td>
+                        </tr>
+                        <tr>
+                            <td th:text="'Likes: ' + ${comment.likes}"></td>
+                        </tr>
+
+                    </table>
+
+                    <table class="table" th:each="comment:${comments.get(photo)}">
+
+                        <tr>
+                            <td th:text="${comment.sender.username} + ': '"></td>
+                            <td th:text="${comment.content} + '  '"></td>
+                            <td th:text="${comment.date}"></td>
+                        </tr>
+                        <tr>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}==${comment.sender.username}"><form th:action="@{/photocomments/delete/{id}(id=${comment.id})}" th:method="delete"><input class="btn btn-warning" type="submit" value="Delete"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and !${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/photocomments/like/{id}(id=${comment.id})}" th:method="POST"><input class="btn btn-success" type="submit" value="Like"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and ${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/photocomments/unlike/{id}(id=${comment.id})}" th:method="POST"><input class="btn btn-danger" type="submit" value="Unlike"/></form></td>
+                            <td th:text="'Likes: ' + ${comment.likes}"></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <br>
+                </br>
+                <br>
+                </br>
+
+                <form th:if="${owner}==${currentUser.username}" method="POST" action="/photos" enctype="multipart/form-data">
+                    <p>Add a new photo:</p>
+                    <input type="file" name="photo" id="file"/>
+                    <input style="margin-top: 7px;" type="submit" class="btn btn-primary" value="Add!"/>
+                </form>
+
+            </section>
+        </main>
+    </body>
+</html>

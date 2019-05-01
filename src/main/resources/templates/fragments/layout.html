@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:fragment="head(title)">
+        <meta charset="UTF-8" />
+        <title th:text="${title}"></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <style>
+            div {padding: 10px; margin-top: 10px;}
+            btn {margin-top: 12px !important;}
+        </style>
+        <script>
+            function validateForm() {
+
+                var box = document.getElementById("name");
+                var box2 = document.getElementById("username");
+                var box3 = document.getElementById("password");
+                
+                if (box.value.length < 4) {
+                    alert("Name cannot be less than 4 characters");
+                    return false;
+                } else if (box2.value.length < 2) {
+                    alert("Username cannot be less than 2 characters");
+                    return false;
+                } else if (box3.value.length < 4) {
+                    alert("Password cannot be less than 4 characters");
+                    return false;
+                }
+                var conf = confirm("Are you sure you want to create a new account with these credentials?");
+                if (conf === true) {
+                    return true;
+                } else
+                    return false;
+            };
+        </script>
+    </head>
+    <body>
+        <header th:fragment="header(owner)">
+            <nav class="navbar navbar-expand-sm bg-primary navbar-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a style="margin: 10px;" class="nav-link bg-success text-white" th:href="@{/index/{username}(username=${#authentication.getPrincipal().getUsername()})}"><span style="padding: 7px;" th:text="${#authentication.getPrincipal().getUsername()} + ' - Personal wall'"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="margin: 10px;" class="nav-link bg-secondary text-warning" th:if="${owner}!=${#authentication.getPrincipal().getUsername()}" th:href="@{/index/{owner}(owner=${owner})}"><span style="padding: 7px;" th:text="${owner} + ' - Wall'"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="margin: 10px;" class="nav-link bg-secondary text-white" th:if="${owner}==${#authentication.getPrincipal().getUsername()}" th:href="@{/invitations/{owner}(owner=${owner})}"><span style="padding: 7px;" th:text="Friends"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="margin: 10px;" class="nav-link bg-secondary text-white" th:href="@{/photos/{owner}(owner=${owner})}"><span style="padding: 7px;" th:text="Photos"></span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a style="margin: 10px; padding: 7px;" class="nav-link bg-danger text-white" th:href="@{/logout}" <span th:text="${#authentication.getPrincipal().getUsername()} + ' - Logout'"></span></a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+
+    </body>
+</html>

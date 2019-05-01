@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    
+    <head th:replace="fragments/layout :: head(title='Accounts')">
+        <meta charset="UTF-8" />
+        <title>Accounts</title>
+       
+    </head>
+    
+    <body style="background-color: #3b5998">
+        <section class="container">
+            <h2 style="color:white;">Create a new account</h2>
+        <div th:if="${reserved}">
+            <script>alert("Account already in use!");</script>
+        </div>
+        <div th:if="${created}">
+            <script>alert("New account created!");</script>
+        </div>
+
+        <form method="POST" th:action="@{/accounts}" onsubmit="return validateForm();">
+            <table>
+                <tr style="color:white;">
+                    <td> Name(s) :</td> <td> <input type="text" style="margin: 15px; width: 300px;" class="form-control" placeholder="Your name" id="name" name="name"/> </td> <td> *At least 4 characters.</td>
+                </tr>
+                <tr style="color:white;">
+                    <td>Username:</td><td> <input type="text" style="margin: 15px; width: 300px;" class="form-control" placeholder="Your username" id="username" name="username"/> </td> <td>*At least 2 characters. This name will be used in your profile and messages.</td>
+                </tr>
+                <tr style="color:white;">
+                    <td>Password: </td><td><input type="password" style="margin: 15px; width: 300px;" class="form-control" placeholder="Your password" id="password" name="password"/></td> <td> *At least 4 characters.</td>
+                </tr>
+            </table>
+            <input class="btn btn-primary" style="margin: 20px;" type="submit" value="Add new account!"/>
+
+        </form>
+
+        <a style="color: yellow" th:href="@{/homepage}">Back</a>
+        </section>
+    </body>
+</html>

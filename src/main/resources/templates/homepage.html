@@ -1,0 +1,22 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Welcome')">
+        <meta charset="UTF-8" />
+        <title>Welcome</title>
+    </head>
+    <body style="background-color: #3b5998">
+        <main>
+            <section class="container">
+
+                    <h1 style="color: white" th:text="Welcome">Hello</h1><br></br><br></br>
+
+
+                <form th:action="@{/index}" th:method="GET"><input style="margin-bottom: 15px;" class="btn btn-primary" type="submit" value="Login"/></form>
+                <form th:action="@{/accounts}" th:method="GET"><input style="margin-bottom: 15px;"  class="btn btn-secondary" type="submit" value="Create new user"/></form>
+                
+            </section>
+        </main>
+    </body>
+</html>
+

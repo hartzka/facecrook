@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="fragments/layout :: head(title='Home')">  
+        <meta charset="UTF-8" />
+        <title>Home</title>
+        
+    </head>
+    <body>
+        <header th:replace="fragments/layout :: header(owner=${owner})">
+            <p>menu</p>
+        </header>
+
+        <main>
+            <section class="container">
+                <img style="margin-top: 5px;" th:src="@{/facecrook}"/><br></br>
+                <h1>Personal wall</h1>
+                <h2 th:text="${owner}">Hello</h2>
+                <h3><span th:text="${name}"></span></h3>
+               
+                <img th:if="${account.profilePhotoId}==0" th:src="@{/default}" height="120"/>
+                <img th:if="${account.profilePhotoId}" th:src="@{/profilephoto/{id}(id=${account.profilePhotoId})}" height="120"/><br></br>
+
+                <h2>Messages:</h2>
+
+                <div th:each="message:${messages}" style="background-color: #eeeeee;">
+                    <p><span th:text="${message.content}"></span></p>
+                    <div th:if="${#authentication.getPrincipal().getUsername()}==${message.user.username}"><form th:action="@{/messages/delete/{id}(id=${message.id})}" th:method="delete"><input class="btn btn-warning" type="submit" value="Delete"/></form></div>
+                    <div style="" th:if="${#authentication.getPrincipal().getUsername()}!=${message.user.username} and !${#lists.contains(message.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/messages/like/{id}(id=${message.id})}" th:method="POST"><input class="btn btn-success" type="submit" value="Like"/></form></div>
+                    <div style="" th:if="${#authentication.getPrincipal().getUsername()}!=${message.user.username} and ${#lists.contains(message.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/messages/unlike/{id}(id=${message.id})}" th:method="POST"><input class="btn btn-danger" type="submit" value="Unlike"/></form></div>
+                    <div><form th:action="@{/messages/comment/{id}(id=${message.id})}" th:method="POST">
+                            <input style="margin-bottom: 15px;" type="input" name="content" class="form-control" placeholder="Write a comment..."/>
+                            <input style="margin-bottom: 15px;" class="btn btn-primary" type="submit" value="Comment"/>
+                        </form></div>
+                    <p> Likes: <span th:text="${message.likes}"></span></p>
+                    <div th:if='!${comments.get(message).empty}' class="container">
+                        <div class="row">
+                            <b>Sender / message / time:</b>
+                        </div>
+                    </div>
+                    <table class="table" th:each="comment:${comments.get(message)}">
+
+                        <tr>
+                            <td th:text="${comment.sender.username} + ': '"></td>
+                            <td th:text="${comment.content} + '  '"></td>
+                            <td th:text="${comment.date}"></td>
+                        </tr>
+                        <tr>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}==${comment.sender.username}"><form th:action="@{/comments/delete/{id}(id=${comment.id})}" th:method="delete"><input type="submit" class="btn btn-warning" value="Delete"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and !${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/comments/like/{id}(id=${comment.id})}" th:method="POST"><input type="submit" class="btn btn-success" value="Like"/></form></td>
+                            <td th:if="${#authentication.getPrincipal().getUsername()}!=${comment.sender.username} and ${#lists.contains(comment.likers, #authentication.getPrincipal().getUsername())}"><form th:action="@{/comments/unlike/{id}(id=${comment.id})}" th:method="POST"><input type="submit" class="btn btn-danger" value="Unlike"/></form></td>
+                            <td th:text="'Likes: ' + ${comment.likes}"></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div th:if="${owner}==${#authentication.getPrincipal().getUsername()}">
+                    <p>Write a new message:</p>
+                    <form method="POST" th:action="@{/messages/add/{username}(username=${owner})}">
+                        <input type="input" style="margin-bottom: 15px;" class="form-control" placeholder="Write something..." name="content"/>
+                        <input type="submit" class="btn btn-primary" value="Publish"/>
+                    </form>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>
