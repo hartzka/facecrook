@@ -31,14 +31,14 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
     private Integer port;
 
     @Test
-    public void Test2() {
+    public void Test() {
         goTo("http://localhost:" + port + "/accounts");
         assertFalse(pageSource().contains("Welcome"));
         assertTrue(pageSource().contains("Create a new account"));
 
-        find("#name").fill().with("Uuno Turhapuro");
-        find("#username").fill().with("uuno");
-        find("#password").fill().with("salis");
+        find("#nametest").fill().with("Uuno Turhapuro");
+        find("#usernametest").fill().with("uuno");
+        find("#passwordtest").fill().with("salis");
         find("form").first().submit();
 
         assertFalse(pageSource().contains("Welcome"));
@@ -47,18 +47,17 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
         goTo("http://localhost:" + port + "/login");
         find("#username").fill().with("uuno");
         find("#password").fill().with("salis");
-        find("form").first().submit();
+        find("button").first().click();
+        
+        System.out.println("formfirts");
+        System.out.println(find("button").first().getElement());
+        System.out.println(find("button").first().getClass());
+        System.out.println(find("button").first().getElement().getTagName());
+        System.out.println(find("button").first().getElement().getText());
         System.out.println("pagesource");
         System.out.println(pageSource());
-        goTo("http://localhost:" + port + "/index/uuno");
-        
-        //find("#content").fill().with("Moi");
-        //find("form").first().submit();
-        //assertTrue(pageSource().contains("Moi"));
-        //goTo("http://localhost:" + port + "/index/");
-        //find("a", containingText("Uuno Turhapuro")).click();
-        //find("#add-to-movie").first().submit();
 
+        assertFalse(pageSource().contains("wall"));
     }
 
     @Test

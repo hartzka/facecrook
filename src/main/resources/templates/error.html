@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="fragments/layout :: head(title='Error')">
+        <meta charset="UTF-8" />
+        <title>Accounts</title>
+
+    </head>
+    <body>
+        <h2><span th:if="${status}" th:text="'Status: ' + ${status}"></span></h2>
+        <h1>Something unexpected happened! </h1>
+        <h2>Maybe the path you typed is erroneus.</h2>
+        <a href="/">Back</a>
+    </body>
+</html>

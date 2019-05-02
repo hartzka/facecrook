@@ -29,6 +29,11 @@ public class DefaultController {
     public String defaul_t(Model model) {
         return "redirect:/homepage";
     }
+    
+    @GetMapping("/error")
+    public String error() {
+        return "homepage";
+    }
 
     @GetMapping("/homepage")
     public String home() {
