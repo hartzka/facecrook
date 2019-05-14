@@ -19,7 +19,7 @@
                     <table class="table">
                         <tbody>
                             <tr> 
-                                <td><a th:href="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}"><img th:src="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}" width="200"/></a></td>
+                                <td><a th:href="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}"><img th:src="@{/photos/{username}(username=${owner})/{id}(id=${photo.id})}" style="max-width:260;"/></a></td>
                             </tr>
                             <tr>
                                 <td th:if="${currentUser}==${photo.user}"><form th:action="@{/photos/delete/{id}(id=${photo.id})}" th:method="delete"><input type="submit" class="btn btn-warning" value="Delete"/></form></td>
