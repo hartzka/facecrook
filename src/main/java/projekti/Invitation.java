@@ -1,7 +1,6 @@
 
 package projekti;
   
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.Entity;

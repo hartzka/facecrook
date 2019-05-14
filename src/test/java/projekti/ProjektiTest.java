@@ -1,7 +1,5 @@
 package projekti;
 
-import static org.fluentlenium.core.filter.FilterConstructor.containingText;
-import org.junit.Assert;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -36,9 +34,9 @@ public class ProjektiTest extends org.fluentlenium.adapter.junit.FluentTest {
         assertFalse(pageSource().contains("Welcome"));
         assertTrue(pageSource().contains("Create a new account"));
 
-        find("#nametest").fill().with("Uuno Turhapuro");
-        find("#usernametest").fill().with("uuno");
-        find("#passwordtest").fill().with("salis");
+        find("#name").fill().with("Uuno Turhapuro");
+        find("#username").fill().with("uuno");
+        find("#password").fill().with("salis");
         find("form").first().submit();
 
         assertFalse(pageSource().contains("Welcome"));
