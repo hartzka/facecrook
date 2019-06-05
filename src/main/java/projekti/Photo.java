@@ -29,9 +29,9 @@ public class Photo extends AbstractPersistable<Long>{
     @ManyToOne
     private Account user;
     
-    //@Lob
-    //@Basic(fetch = FetchType.LAZY)
-    //@Type(type = "org.hibernate.type.BinaryType")
+    @Lob //local
+    @Basic(fetch = FetchType.LAZY) //local
+    //@Type(type = "org.hibernate.type.BinaryType") //heroku
     private byte[] content;
     
     @OneToMany(mappedBy = "photo")

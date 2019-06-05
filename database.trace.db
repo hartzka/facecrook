@@ -424,3 +424,9 @@ select photo0_.id as id1_6_, photo0_.content as content2_6_, photo0_.content_len
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:748)
+2019-06-05 20:13:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Value too long for column "CONTENT BINARY(255)": "X'89504e470d0a1a0a0000000d49484452000000fe00000677080600000040f9c87b00000006624b474400ff00ff00ffa0bda7930000200049444154789cec9d... (104730)"; SQL statement:
+insert into photo (content, content_type, date, likers, likes, name, user_id, id) values (?, ?, ?, ?, ?, ?, ?, ?) [22001-197]
+2019-06-05 20:13:58 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Value too long for column "CONTENT BINARY(255)": "X'89504e470d0a1a0a0000000d49484452000000fe00000677080600000040f9c87b00000006624b474400ff00ff00ffa0bda7930000200049444154789cec9d... (104730)"; SQL statement:
+insert into photo (content, content_type, date, likers, likes, name, user_id, id) values (?, ?, ?, ?, ?, ?, ?, ?) [22001-197]
