@@ -1,5 +1,5 @@
 ## Facecrook
 
-Facebookia muistuttava sovellus, jossa on rekisteröitymisen jälkeen mahdollista luoda kontakteja, lähettää viestejä ja kuvia, tykätä kuvista sekä muokata ja poistaa viestejä ja kuvia.
+Resembles Facebook. It's possible to add contacts, send messages and photos, like photos and edit messages.
 
-Sovellus löytyy herokusta: http://face-crook.herokuapp.com/
+Heroku: http://face-crook.herokuapp.com/
